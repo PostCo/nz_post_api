@@ -58,4 +58,10 @@ RSpec.describe NzPostApi::Client do
       expect(client.shipping_options).to be_a(NzPostApi::Resources::ShippingOption)
     end
   end
+
+  describe "#parcel_track" do
+    it "returns a ParcelTrack instance" do
+      expect(client.parcel_track).to be_a(NzPostApi::Resources::ParcelTrack)
+    end
+  end
 end

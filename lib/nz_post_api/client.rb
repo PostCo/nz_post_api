@@ -32,5 +32,9 @@ module NzPostApi
     def shipping_options
       Resources::ShippingOption.new(self)
     end
+
+    def parcel_track
+      Resources::ParcelTrack.new(self)
+    end
   end
 end

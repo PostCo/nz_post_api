@@ -168,7 +168,7 @@ file.unlink # deletes the temp file
 
 List available shipping options based on package details.
 
-```ruby
+````ruby
 shipping_client = client.shipping_options
 
 params = {
@@ -183,8 +183,54 @@ params = {
 response = shipping_client.list(params)
 response.services.each do |service|
   puts service.service_code
+  puts service.service_code
   puts service.description
 end
+
+### Parcel Track
+
+#### Track Parcel
+
+Retrieve tracking events for a parcel.
+
+```ruby
+track_client = client.parcel_track
+tracking = track_client.track("TRACKING_NUMBER")
+
+puts tracking.tracking_reference
+tracking.tracking_events.each do |event|
+  puts "#{event.event_datetime}: #{event.event_description}"
+end
+```
+
+#### Subscribe to Updates
+
+Subscribe to tracking updates for a parcel via webhook.
+
+```ruby
+track_client = client.parcel_track
+subscription = track_client.subscribe(
+  tracking_reference: "TRACKING_NUMBER",
+  notification_endpoint: "https://my.endpoint.com/nz_post_tracking"
+)
+
+puts subscription.subscription_guid
+```
+
+#### Unsubscribe
+
+Unsubscribe from tracking updates.
+
+```ruby
+track_client = client.parcel_track
+success = track_client.unsubscribe(subscription_guid: "SUBSCRIPTION_GUID")
+
+if success
+  puts "Unsubscribed successfully"
+else
+  puts "Failed to unsubscribe"
+end
+````
 
 ## Development
 
@@ -203,4 +249,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the NzPostApi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/nz_post_api/blob/main/CODE_OF_CONDUCT.md).
+
+```
+
 ```
