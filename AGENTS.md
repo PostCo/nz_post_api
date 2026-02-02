@@ -15,6 +15,7 @@ This project is a Ruby gem wrapper for the NZ Post API.
 2.  Implement the test case.
 3.  Implement the code to pass the test.
 4.  Refactor.
+5.  **Documentation**: Update README.md if there are any changes to the public API or configuration.
 
 ## API Documentation
 
