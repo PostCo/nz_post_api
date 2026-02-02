@@ -60,6 +60,10 @@ RSpec.describe NzPostApi::Client do
   end
 
   describe "#parcel_track" do
+    let(:client_id) { "client_id" }
+    let(:access_token) { "access_token" }
+    let(:client) { described_class.new(client_id: client_id, access_token: access_token) }
+
     it "returns a ParcelTrack instance" do
       expect(client.parcel_track).to be_a(NzPostApi::Resources::ParcelTrack)
     end

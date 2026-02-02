@@ -3,14 +3,16 @@
 module NzPostApi
   module Resources
     class ShippingOption
-      BASE_URL = "https://api.uat.nzpost.co.nz/shippingoptions/2.0/domestic"
+      def base_url
+        "#{NzPostApi.configuration.base_url}/shippingoptions/2.0/domestic"
+      end
 
       def initialize(client)
         @client = client
       end
 
       def list(params = {})
-        response = @client.connection.get(BASE_URL, params)
+        response = @client.connection.get(base_url, params)
 
         if response.success?
           Objects::ShippingOption.new(response.body)

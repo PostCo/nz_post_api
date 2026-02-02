@@ -37,6 +37,16 @@ Then, initialize the client with the access token.
 client = NzPostApi::Client.new(client_id: "YOUR_CLIENT_ID", access_token: access_token)
 ```
 
+### Configuration
+
+By default, the gem uses the UAT environment. To use the production environment, configure the gem as follows:
+
+```ruby
+NzPostApi.configure do |config|
+  config.prod = true # set to true for production, defaults to false (UAT)
+end
+```
+
 ### Parcel Address
 
 #### Search

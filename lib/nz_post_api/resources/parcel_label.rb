@@ -3,24 +3,26 @@
 module NzPostApi
   module Resources
     class ParcelLabel
-      BASE_URL = "https://api.uat.nzpost.co.nz/parcellabel/v3/labels"
+      def base_url
+        "#{NzPostApi.configuration.base_url}/parcellabel/v3/labels"
+      end
 
       def initialize(client)
         @client = client
       end
 
       def create(payload)
-        response = @client.connection.post(BASE_URL, payload)
+        response = @client.connection.post(base_url, payload)
         handle_response(response)
       end
 
       def status(consignment_id)
-        response = @client.connection.get("#{BASE_URL}/#{consignment_id}/status")
+        response = @client.connection.get("#{base_url}/#{consignment_id}/status")
         handle_response(response)
       end
 
       def download(consignment_id, format: "PDF")
-        response = @client.connection.get("#{BASE_URL}/#{consignment_id}", { format: format })
+        response = @client.connection.get("#{base_url}/#{consignment_id}", { format: format })
         if response.success?
           response.body
         else
