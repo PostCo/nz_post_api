@@ -13,6 +13,22 @@ RSpec.describe NzPostApi::Configuration do
       expect(config.base_url).to eq("https://api.nzpost.co.nz")
     end
   end
+
+  describe "#client_id and #access_token" do
+    it "defaults to nil" do
+      config = described_class.new
+      expect(config.client_id).to be_nil
+      expect(config.access_token).to be_nil
+    end
+
+    it "allows setting client_id and access_token" do
+      config = described_class.new
+      config.client_id = "my_client_id"
+      config.access_token = "my_access_token"
+      expect(config.client_id).to eq("my_client_id")
+      expect(config.access_token).to eq("my_access_token")
+    end
+  end
 end
 
 RSpec.describe NzPostApi do

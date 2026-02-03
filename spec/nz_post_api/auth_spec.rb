@@ -16,7 +16,7 @@ RSpec.describe NzPostApi::Auth do
     before do
       stub_request(:post, token_url)
         .with(
-          body: {
+          query: {
             "client_id" => client_id,
             "client_secret" => client_secret,
             "grant_type" => "client_credentials"
@@ -34,7 +34,7 @@ RSpec.describe NzPostApi::Auth do
       before do
         stub_request(:post, token_url)
           .with(
-            body: {
+            query: {
               "client_id" => client_id,
               "client_secret" => client_secret,
               "grant_type" => "client_credentials"

@@ -2,10 +2,12 @@
 
 module NzPostApi
   class Configuration
-    attr_accessor :prod
+    attr_accessor :prod, :client_id, :access_token
 
     def initialize
       @prod = false
+      @client_id = nil
+      @access_token = nil
     end
 
     def base_url

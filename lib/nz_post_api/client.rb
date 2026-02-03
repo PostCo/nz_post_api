@@ -4,11 +4,15 @@ require "faraday"
 
 module NzPostApi
   class Client
-    attr_reader :client_id, :access_token
+    def initialize
+    end
 
-    def initialize(client_id:, access_token:)
-      @client_id = client_id
-      @access_token = access_token
+    def client_id
+      NzPostApi.configuration.client_id
+    end
+
+    def access_token
+      NzPostApi.configuration.access_token
     end
 
     def connection

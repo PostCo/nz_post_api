@@ -1,21 +1,33 @@
 # frozen_string_literal: true
 
 RSpec.describe NzPostApi::Client do
-  describe "#initialize" do
-    let(:client_id) { "client_id" }
-    let(:access_token) { "access_token" }
+  let(:client_id) { "client_id" }
+  let(:access_token) { "access_token" }
 
-    it "initializes with client_id and access_token" do
-      client = described_class.new(client_id: client_id, access_token: access_token)
+  before do
+    NzPostApi.configure do |config|
+      config.client_id = client_id
+      config.access_token = access_token
+    end
+  end
+
+  after do
+    NzPostApi.configure do |config|
+      config.client_id = nil
+      config.access_token = nil
+    end
+  end
+
+  describe "#initialize" do
+    it "uses client_id and access_token from configuration" do
+      client = described_class.new
       expect(client.client_id).to eq(client_id)
       expect(client.access_token).to eq(access_token)
     end
   end
 
   describe "#connection" do
-    let(:client_id) { "client_id" }
-    let(:access_token) { "access_token" }
-    let(:client) { described_class.new(client_id: client_id, access_token: access_token) }
+    let(:client) { described_class.new }
 
     it "returns a Faraday connection" do
       expect(client.connection).to be_a(Faraday::Connection)
@@ -30,9 +42,7 @@ RSpec.describe NzPostApi::Client do
   end
 
   describe "#parcel_address" do
-    let(:client_id) { "client_id" }
-    let(:access_token) { "access_token" }
-    let(:client) { described_class.new(client_id: client_id, access_token: access_token) }
+    let(:client) { described_class.new }
 
     it "returns a ParcelAddress instance" do
       expect(client.parcel_address).to be_a(NzPostApi::Resources::ParcelAddress)
@@ -40,9 +50,7 @@ RSpec.describe NzPostApi::Client do
   end
 
   describe "#parcel_label" do
-    let(:client_id) { "client_id" }
-    let(:access_token) { "access_token" }
-    let(:client) { described_class.new(client_id: client_id, access_token: access_token) }
+    let(:client) { described_class.new }
 
     it "returns a ParcelLabel instance" do
       expect(client.parcel_label).to be_a(NzPostApi::Resources::ParcelLabel)
@@ -50,9 +58,7 @@ RSpec.describe NzPostApi::Client do
   end
 
   describe "#shipping_options" do
-    let(:client_id) { "client_id" }
-    let(:access_token) { "access_token" }
-    let(:client) { described_class.new(client_id: client_id, access_token: access_token) }
+    let(:client) { described_class.new }
 
     it "returns a ShippingOption instance" do
       expect(client.shipping_options).to be_a(NzPostApi::Resources::ShippingOption)
@@ -60,9 +66,7 @@ RSpec.describe NzPostApi::Client do
   end
 
   describe "#parcel_track" do
-    let(:client_id) { "client_id" }
-    let(:access_token) { "access_token" }
-    let(:client) { described_class.new(client_id: client_id, access_token: access_token) }
+    let(:client) { described_class.new }
 
     it "returns a ParcelTrack instance" do
       expect(client.parcel_track).to be_a(NzPostApi::Resources::ParcelTrack)

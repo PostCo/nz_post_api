@@ -31,21 +31,25 @@ expires_in = token_response["expires_in"]
 > [!IMPORTANT]
 > The access token expires after a certain period (indicated by `expires_in`). It is highly recommended to cache the `access_token` and reuse it until it expires to avoid unnecessary API calls and potential rate limiting.
 
-Then, initialize the client with the access token.
+Then, configure the gem and initialize the client.
 
 ```ruby
-client = NzPostApi::Client.new(client_id: "YOUR_CLIENT_ID", access_token: access_token)
+NzPostApi.configure do |config|
+  config.client_id = "YOUR_CLIENT_ID"
+  config.access_token = access_token
+  config.prod = true # set to true for production, defaults to false (UAT)
+end
+
+client = NzPostApi::Client.new
 ```
 
 ### Configuration
 
-By default, the gem uses the UAT environment. To use the production environment, configure the gem as follows:
+By default, the gem uses the UAT environment. Configuration options:
 
-```ruby
-NzPostApi.configure do |config|
-  config.prod = true # set to true for production, defaults to false (UAT)
-end
-```
+- `client_id` – Your NZ Post API client ID (required for API calls)
+- `access_token` – Bearer token from `NzPostApi::Auth.fetch_token` (required for API calls)
+- `prod` – Set to `true` for production, `false` for UAT (default)
 
 ### Parcel Address
 
@@ -68,6 +72,10 @@ end
 #### Create Label
 
 Create a new parcel label.
+
+- **NZ Post rates**: To use your own NZ Post rates, include `account_number` and `site_code` in the payload.
+- **Notification endpoint**: The `notification_endpoint` is a webhook URL. NZ Post will send HTTP requests to this endpoint when the parcel label status is updated.
+- **Service codes** (in `parcel_details`): `CPOLP` is Overnight Returns (supports pickup); `EROLE` is Economy Returns (only drop off, the pickup address street must have the prefix "PO Box" or "Private Bag" followed by digits).
 
 ```ruby
 label_client = client.parcel_label
