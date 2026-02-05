@@ -3,14 +3,7 @@
 RSpec.describe NzPostApi::Resources::ShippingOption do
   let(:client_id) { "client_id" }
   let(:access_token) { "access_token" }
-  let(:client) { NzPostApi::Client.new }
-
-  before do
-    NzPostApi.configure do |config|
-      config.client_id = client_id
-      config.access_token = access_token
-    end
-  end
+  let(:client) { NzPostApi::Client.new(client_id, access_token) }
 
   let(:shipping_option) { described_class.new(client) }
 

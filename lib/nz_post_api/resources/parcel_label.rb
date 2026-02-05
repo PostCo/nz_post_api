@@ -4,7 +4,7 @@ module NzPostApi
   module Resources
     class ParcelLabel
       def base_url
-        "#{NzPostApi.configuration.base_url}/parcellabel/v3/labels"
+        "#{@client.base_url}/parcellabel/v3/labels"
       end
 
       def initialize(client)

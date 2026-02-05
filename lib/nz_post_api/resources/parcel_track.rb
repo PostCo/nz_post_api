@@ -4,7 +4,7 @@ module NzPostApi
   module Resources
     class ParcelTrack
       def base_url
-        "#{NzPostApi.configuration.base_url}/parceltrack/3.0/parcels"
+        "#{@client.base_url}/parceltrack/3.0/parcels"
       end
 
       def initialize(client)

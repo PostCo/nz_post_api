@@ -4,7 +4,7 @@ module NzPostApi
   module Resources
     class ParcelAddress
       def base_url
-        "#{NzPostApi.configuration.base_url}/parceladdress/2.0/domestic/addresses"
+        "#{@client.base_url}/parceladdress/2.0/domestic/addresses"
       end
 
       def initialize(client)

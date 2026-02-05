@@ -31,25 +31,21 @@ expires_in = token_response["expires_in"]
 > [!IMPORTANT]
 > The access token expires after a certain period (indicated by `expires_in`). It is highly recommended to cache the `access_token` and reuse it until it expires to avoid unnecessary API calls and potential rate limiting.
 
-Then, configure the gem and initialize the client.
+Then, initialize the client with your credentials:
 
 ```ruby
-NzPostApi.configure do |config|
-  config.client_id = "YOUR_CLIENT_ID"
-  config.access_token = access_token
-  config.prod = true # set to true for production, defaults to false (UAT)
-end
-
-client = NzPostApi::Client.new
+client = NzPostApi::Client.new(
+  "YOUR_CLIENT_ID",
+  access_token,
+  prod: true  # set to true for production, false for UAT (default)
+)
 ```
 
-### Configuration
+**Client constructor:**
 
-By default, the gem uses the UAT environment. Configuration options:
-
-- `client_id` – Your NZ Post API client ID (required for API calls)
-- `access_token` – Bearer token from `NzPostApi::Auth.fetch_token` (required for API calls)
-- `prod` – Set to `true` for production, `false` for UAT (default)
+- `client_id` – Your NZ Post API client ID (required)
+- `access_token` – Bearer token from `NzPostApi::Auth.fetch_token` (required)
+- `prod:` – Set to `true` for production (`https://api.nzpost.co.nz`), `false` for UAT (`https://api.uat.nzpost.co.nz`). Defaults to `false`.
 
 ### Parcel Address
 
@@ -267,7 +263,3 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the NzPostApi project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/nz_post_api/blob/main/CODE_OF_CONDUCT.md).
-
-```
-
-```

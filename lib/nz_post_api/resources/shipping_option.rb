@@ -4,7 +4,7 @@ module NzPostApi
   module Resources
     class ShippingOption
       def base_url
-        "#{NzPostApi.configuration.base_url}/shippingoptions/2.0/domestic"
+        "#{@client.base_url}/shippingoptions/2.0/domestic"
       end
 
       def initialize(client)
