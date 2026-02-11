@@ -59,5 +59,21 @@ RSpec.describe NzPostApi::Resources::ShippingOption do
       expect(result.services.first.service_code).to eq("CPOLE")
       expect(result.services.first.addons.first.addon_code).to eq("CPSR")
     end
+
+    context "when API call fails" do
+      before do
+        stub_request(:get, url)
+          .with(query: params)
+          .to_return(status: 422, body: '{"success":false,"message":"Invalid dimensions"}', headers: { "Content-Type" => "application/json" })
+      end
+
+      it "raises an error with response details" do
+        expect { shipping_option.list(params) }.to raise_error(NzPostApi::Error) { |error|
+          expect(error.message).to match(/Failed to list options/)
+          expect(error.response_http_code).to eq(422)
+          expect(error.response_body).to eq({ "success" => false, "message" => "Invalid dimensions" })
+        }
+      end
+    end
   end
 end

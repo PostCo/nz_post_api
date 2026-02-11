@@ -1,4 +1,9 @@
 module NzPostApi
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+  class Error < ::StandardError
+    attr_reader response_http_code: Integer?
+    attr_reader response_body: untyped
+
+    def initialize: (?String message, ?response_http_code: Integer, ?response_body: untyped) -> void
+  end
 end

@@ -26,7 +26,11 @@ module NzPostApi
         if response.success?
           response.body
         else
-          raise NzPostApi::Error, "Failed to download label: #{response.status} - #{response.body}"
+          raise NzPostApi::Error.new(
+            "Failed to download label: #{response.status} - #{response.body}",
+            response_http_code: response.status,
+            response_body: response.body
+          )
         end
       end
 
@@ -36,7 +40,11 @@ module NzPostApi
         if response.success?
           Objects::Label.new(response.body)
         else
-          raise NzPostApi::Error, "Failed to create/get label: #{response.status} - #{response.body}"
+          raise NzPostApi::Error.new(
+            "Failed to create/get label: #{response.status} - #{response.body}",
+            response_http_code: response.status,
+            response_body: response.body
+          )
         end
       end
     end

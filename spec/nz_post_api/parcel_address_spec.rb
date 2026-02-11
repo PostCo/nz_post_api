@@ -56,7 +56,11 @@ RSpec.describe NzPostApi::Resources::ParcelAddress do
       it "raises an error" do
         expect {
           parcel_address.search(q: query, count: count)
-        }.to raise_error(NzPostApi::Error, /500/)
+        }.to raise_error(NzPostApi::Error) { |error|
+          expect(error.message).to match(/500/)
+          expect(error.response_http_code).to eq(500)
+          expect(error.response_body).to eq("Internal Server Error")
+        }
       end
     end
   end

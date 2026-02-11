@@ -17,7 +17,11 @@ module NzPostApi
         if response.success?
           Objects::ParcelTrack.new(response.body["results"])
         else
-          raise NzPostApi::Error, "Failed to track parcel: #{response.status} - #{response.body}"
+          raise NzPostApi::Error.new(
+            "Failed to track parcel: #{response.status} - #{response.body}",
+            response_http_code: response.status,
+            response_body: response.body
+          )
         end
       end
 
@@ -31,7 +35,11 @@ module NzPostApi
         if response.success?
           Objects::ParcelTrackSubscription.new(response.body)
         else
-          raise NzPostApi::Error, "Failed to subscribe to parcel: #{response.status} - #{response.body}"
+          raise NzPostApi::Error.new(
+            "Failed to subscribe to parcel: #{response.status} - #{response.body}",
+            response_http_code: response.status,
+            response_body: response.body
+          )
         end
       end
 
@@ -41,7 +49,11 @@ module NzPostApi
         if response.success?
           true
         else
-          raise NzPostApi::Error, "Failed to unsubscribe from parcel: #{response.status} - #{response.body}"
+          raise NzPostApi::Error.new(
+            "Failed to unsubscribe from parcel: #{response.status} - #{response.body}",
+            response_http_code: response.status,
+            response_body: response.body
+          )
         end
       end
     end

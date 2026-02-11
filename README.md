@@ -47,6 +47,20 @@ client = NzPostApi::Client.new(
 - `access_token` – Bearer token from `NzPostApi::Auth.fetch_token` (required)
 - `prod:` – Set to `true` for production (`https://api.nzpost.co.nz`), `false` for UAT (`https://api.uat.nzpost.co.nz`). Defaults to `false`.
 
+### Error Handling
+
+API request failures raise `NzPostApi::Error`. The error object exposes both HTTP status code and response body:
+
+```ruby
+begin
+  client.parcel_address.search(q: "Invalid")
+rescue NzPostApi::Error => error
+  puts error.message
+  puts error.response_http_code
+  puts error.response_body
+end
+```
+
 ### Parcel Address
 
 #### Search

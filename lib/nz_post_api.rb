@@ -15,5 +15,13 @@ require_relative "nz_post_api/resources/shipping_option"
 require_relative "nz_post_api/resources/parcel_track"
 
 module NzPostApi
-  class Error < StandardError; end
+  class Error < StandardError
+    attr_reader :response_http_code, :response_body
+
+    def initialize(message = nil, response_http_code: nil, response_body: nil)
+      @response_http_code = response_http_code
+      @response_body = response_body
+      super(message)
+    end
+  end
 end

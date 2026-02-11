@@ -42,6 +42,22 @@ RSpec.describe NzPostApi::Resources::ParcelLabel do
       expect(result.success).to be(true)
       expect(result.consignment_id).to eq("JD8H7F")
     end
+
+    context "when API call fails" do
+      before do
+        stub_request(:post, url)
+          .with(body: payload, headers: headers)
+          .to_return(status: 400, body: '{"success":false,"message":"Bad Request"}', headers: { "Content-Type" => "application/json" })
+      end
+
+      it "raises an error with response details" do
+        expect { parcel_label.create(payload) }.to raise_error(NzPostApi::Error) { |error|
+          expect(error.message).to match(/Failed to create\/get label/)
+          expect(error.response_http_code).to eq(400)
+          expect(error.response_body).to eq({ "success" => false, "message" => "Bad Request" })
+        }
+      end
+    end
   end
 
   describe "#status" do
@@ -110,6 +126,22 @@ RSpec.describe NzPostApi::Resources::ParcelLabel do
     it "downloads the label" do
       result = parcel_label.download(consignment_id)
       expect(result).to eq(pdf_content)
+    end
+
+    context "when API call fails" do
+      before do
+        stub_request(:get, url)
+          .with(headers: headers.except("Content-Type"))
+          .to_return(status: 500, body: "Internal Server Error")
+      end
+
+      it "raises an error with response details" do
+        expect { parcel_label.download(consignment_id) }.to raise_error(NzPostApi::Error) { |error|
+          expect(error.message).to match(/Failed to download label/)
+          expect(error.response_http_code).to eq(500)
+          expect(error.response_body).to eq("Internal Server Error")
+        }
+      end
     end
   end
 end

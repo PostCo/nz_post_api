@@ -17,7 +17,11 @@ module NzPostApi
         if response.success?
           response.body["addresses"].map { |addr| Objects::Address.new(addr) }
         else
-          raise NzPostApi::Error, "Failed to search addresses: #{response.status} - #{response.body}"
+          raise NzPostApi::Error.new(
+            "Failed to search addresses: #{response.status} - #{response.body}",
+            response_http_code: response.status,
+            response_body: response.body
+          )
         end
       end
     end

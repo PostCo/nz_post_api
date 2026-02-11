@@ -46,7 +46,11 @@ RSpec.describe NzPostApi::Auth do
       it "raises an error" do
         expect {
           described_class.fetch_token(client_id, client_secret)
-        }.to raise_error(NzPostApi::Error, /401/)
+        }.to raise_error(NzPostApi::Error) { |error|
+          expect(error.message).to match(/401/)
+          expect(error.response_http_code).to eq(401)
+          expect(error.response_body).to eq("Unauthorized")
+        }
       end
     end
   end

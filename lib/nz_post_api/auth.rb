@@ -20,7 +20,11 @@ module NzPostApi
       if response.success?
         JSON.parse(response.body)
       else
-        raise NzPostApi::Error, "Failed to fetch token: #{response.status} - #{response.body}"
+        raise NzPostApi::Error.new(
+          "Failed to fetch token: #{response.status} - #{response.body}",
+          response_http_code: response.status,
+          response_body: response.body
+        )
       end
     end
   end

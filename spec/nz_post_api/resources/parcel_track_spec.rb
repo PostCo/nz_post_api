@@ -47,7 +47,11 @@ RSpec.describe NzPostApi::Resources::ParcelTrack do
       end
 
       it "raises an error" do
-        expect { resource.track(tracking_reference) }.to raise_error(NzPostApi::Error, /Failed to track parcel/)
+        expect { resource.track(tracking_reference) }.to raise_error(NzPostApi::Error) { |error|
+          expect(error.message).to match(/Failed to track parcel/)
+          expect(error.response_http_code).to eq(404)
+          expect(error.response_body).to eq({ "success" => false, "message" => "Not Found" })
+        }
       end
     end
   end
@@ -91,7 +95,11 @@ RSpec.describe NzPostApi::Resources::ParcelTrack do
       it "raises an error" do
         expect {
           resource.subscribe(tracking_reference: tracking_reference, notification_endpoint: notification_endpoint)
-        }.to raise_error(NzPostApi::Error, /Failed to subscribe to parcel/)
+        }.to raise_error(NzPostApi::Error) { |error|
+          expect(error.message).to match(/Failed to subscribe to parcel/)
+          expect(error.response_http_code).to eq(400)
+          expect(error.response_body).to eq({ "success" => false, "message" => "Bad Request" })
+        }
       end
     end
   end
@@ -119,7 +127,11 @@ RSpec.describe NzPostApi::Resources::ParcelTrack do
       end
 
       it "raises an error" do
-        expect { resource.unsubscribe(subscription_guid: subscription_guid) }.to raise_error(NzPostApi::Error, /Failed to unsubscribe from parcel/)
+        expect { resource.unsubscribe(subscription_guid: subscription_guid) }.to raise_error(NzPostApi::Error) { |error|
+          expect(error.message).to match(/Failed to unsubscribe from parcel/)
+          expect(error.response_http_code).to eq(400)
+          expect(error.response_body).to eq({ "success" => false, "errors" => [{ "message" => "Bad Request" }] })
+        }
       end
     end
   end
